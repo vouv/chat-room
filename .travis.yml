@@ -6,7 +6,4 @@ go:
 env:
   - GO111MODULE=on
 
-before_install:
-  - go get -v github.com/golang/lint/golint
-
 script: go build app.go
