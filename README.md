@@ -1,5 +1,9 @@
 # chat
-a chat demo implemented by refresh、longpolling、websocket
+
+
+[![Build Status](https://travis-ci.org/monigo/chat-room.svg?branch=master)](https://travis-ci.org/monigo/chat-room)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/monigo-dev/project-chat-room)
+![License](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
 
 
