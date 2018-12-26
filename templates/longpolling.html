@@ -44,7 +44,6 @@
             // When the client hits ENTER on their keyboard
             if (event.which === 13) {
                 sendMessage();
-                console.log("sendmsg");
 
             }
         });
@@ -79,7 +78,7 @@
 
         // Display a message
         var display = function(data) {
-            console.log(event);
+            console.log(data);
             var msg = data.Text;
             var usr = data.User;
 

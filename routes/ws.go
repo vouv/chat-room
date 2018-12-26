@@ -10,7 +10,12 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
+
+var droom = chatroom.RoomS
 
 func WebSocket(server *gin.Engine)  {
 
@@ -32,24 +37,20 @@ func WebSocket(server *gin.Engine)  {
 			panic(err)
 		}
 
-		chatroom.Join(user)
-		defer chatroom.Leave(user)
-
-		// Join the room.
-		subscription := chatroom.Subscribe()
-		defer subscription.Cancel()
+		// 加入房间
+		evs := droom.GetArchive()
+		droom.MsgJoin(user)
+		ctl := droom.Join(user)
+		defer ctl.Leave()
 
 		//先把历史消息推送出去
-		// Send down the archive.
-		for _, event := range subscription.Archive {
+		for _, event := range evs {
 			if conn.WriteJSON(&event) != nil {
 				// They disconnected
 				return
 			}
 		}
 
-		// In order to select between websocket messages and subscription events, we
-		// need to stuff websocket events into a channel.
 		newMessages := make(chan string)
 		go func() {
 			var res = struct {
@@ -65,21 +66,20 @@ func WebSocket(server *gin.Engine)  {
 			}
 		}()
 
-		// Now listen for new events from either the websocket or the chatroom.
+		// 接收消息
 		for {
 			select {
-			case event := <-subscription.NewMsg:
+			case event := <- ctl.Pipe:
 				if conn.WriteJSON(&event) != nil {
-					// They disconnected.
+					// 断开
 					return
 				}
-			case msg, ok := <-newMessages:
-				// If the channel is closed, they disconnected.
+			case msg, ok := <- newMessages:
+				// 断开连接
 				if !ok {
 					return
 				}
-				// Otherwise, say something.
-				chatroom.Say(user, msg)
+				ctl.Say(msg)
 			}
 		}
 	})

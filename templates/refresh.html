@@ -41,18 +41,42 @@
             // When the client hits ENTER on their keyboard
             if (event.which === 13) {
                 sendMessage();
-                window.location.reload();
+                // window.location.reload();
             }
         });
+
+        // Display a message
+        var display = function(data) {
+            console.log(data);
+            var msg = data.Text;
+            var usr = data.User;
+
+            var $usernameDiv = $('<span class="username"/>')
+                    .text(usr)
+                    .css('color', getUsernameColor(usr));
+            var $messageBodyDiv = $('<span class="messageBody">')
+                    .text(msg);
+
+            var typingClass = data.typing ? 'typing' : '';
+            var $messageDiv = $('<li class="message"/>')
+                    .data('username', usr)
+                    .addClass(typingClass)
+                    .append($usernameDiv, $messageBodyDiv);
+
+            $messages.append($messageDiv);
+
+            $messages[0].scrollTop = $messages[0].scrollHeight;
+        };
 
         // Sends a chat message
         function sendMessage () {
             var message = $inputMessage.val();
-            // Prevent markup from being injected into the message
-            $inputMessage.val('');
+
             // if there is a non-empty message and a socket connection
             if (message) {
-            $.post(say, {message: message})
+            $.post(say, {message: message}, function (res) {
+                display(res.data);
+            })
             }
         };
 

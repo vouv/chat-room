@@ -11,7 +11,7 @@ func TestJoin(t *testing.T) {
 	subsc := Subscribe()
 
 	go func(subscription Subscription) {
-		for ev := range subscription.NewMsg {
+		for ev := range subscription.Pipe {
 			fmt.Println(ev.User,ev.Text)
 		}
 	}(subsc)
