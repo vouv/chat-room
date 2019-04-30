@@ -45,10 +45,11 @@ golang实现的聊天室
 ## Thanks To
 
 - [gin](https://github.com/gin-gonic/gin)
+- [gorilla/websocket](https://github.com/gorilla/websocket)
 - [vuejs](https://github.com/vuejs/vue)
+- [element](https://github.com/ElemeFE/element)
 - [axios](https://github.com/axios/axios)
 - [js-cookie](https://github.com/js-cookie/js-cookie)
-- [element](https://github.com/ElemeFE/element)
 
 ## Donate
 
