@@ -4,33 +4,33 @@ import (
 	"time"
 )
 
-// 聊天室事件定义
-type Event struct {
-	// 事件类型
-	Type      	int
-	// 用户名
-	User      	string
-	// 时间戳
-	Timestamp 	int64
-	// 事件内容
-	Text		string
-}
-
 const (
 	//msg
 	EVENT_TYPE_MSG = iota
-
 	EVENT_TYPE_JOIN
 	EVENT_TYPE_TYPING
 	EVENT_TYPE_LEAVE
 	EVENT_TYPE_IMAGE
-
 )
 
+// 聊天室事件定义
+type Event struct {
+	// 事件类型
+	Type int 		`json:"type"`
+	// 用户名
+	User string 	`json:"user"`
+	// 时间戳
+	Timestamp int64 `json:"timestamp"`
+	// 事件内容
+	Text string 	`json:"text"`
+}
+
+func newEvent(typ int, user, msg string) Event {
+	return Event{typ, user, time.Now().UnixNano()/1e6, msg}
+}
 
 // 用户订阅
 type Subscription struct {
-
 	id int64
 
 	username string
@@ -44,18 +44,10 @@ type Subscription struct {
 	leave chan int64
 }
 
-func (s *Subscription)Leave()  {
+func (s *Subscription) Leave() {
 	s.leave <- s.id // 将用户从聊天室列表中移除
 }
 
-
-func newEvent(typ int , user, msg string) Event {
-	return Event{typ, user, time.Now().UnixNano(), msg}
-}
-
-
-func (s *Subscription)Say(message string) {
+func (s *Subscription) Say(message string) {
 	s.emit <- newEvent(EVENT_TYPE_MSG, s.username, message)
 }
-
-

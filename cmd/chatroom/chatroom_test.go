@@ -12,7 +12,7 @@ func TestJoin(t *testing.T) {
 
 	go func(subscription Subscription) {
 		for ev := range subscription.Pipe {
-			fmt.Println(ev.User,ev.Text)
+			fmt.Println(ev.User, ev.Text)
 		}
 	}(subsc)
 
@@ -21,13 +21,12 @@ func TestJoin(t *testing.T) {
 	Join("heiheihei")
 	Join("csk")
 
-	Say("awc","nice day!")
+	Say("awc", "nice day!")
 	Typing("csk")
-	Say("csk","yeah")
-	Say("heiheihei","bye!")
+	Say("csk", "yeah")
+	Say("heiheihei", "bye!")
 	Leave("heiheihei")
 
 	time.Sleep(1 * time.Second)
-
 
 }
