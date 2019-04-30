@@ -8,25 +8,26 @@ import (
 
 func TestJoin(t *testing.T) {
 
-	subsc := Subscribe()
+	room := RoomS
 
-	go func(subscription Subscription) {
-		for ev := range subscription.Pipe {
-			fmt.Println(ev.User, ev.Text)
+	jack := room.Join("jack")
+	go func() {
+		for v := range jack.Pipe {
+			fmt.Println(v)
 		}
-	}(subsc)
+	}()
 
-	Join("awc")
-	Typing("awc")
-	Join("heiheihei")
-	Join("csk")
+	tom := room.Join("Tom")
+	go func() {
+		for v := range tom.Pipe {
+			fmt.Println(v)
+		}
+	}()
+	jack.Say("hello world")
+	tom.Say("nice to meet U")
 
-	Say("awc", "nice day!")
-	Typing("csk")
-	Say("csk", "yeah")
-	Say("heiheihei", "bye!")
-	Leave("heiheihei")
-
+	jack.Leave()
+	tom.Leave()
 	time.Sleep(1 * time.Second)
 
 }

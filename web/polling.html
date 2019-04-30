@@ -99,9 +99,13 @@
         filters: {
             formatDate(val){
                 const date = new Date(val)
-                return date.getFullYear() + '-' + (date.getMonth()+1) + '-' +
-                        date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() +
-                        ':' + date.getSeconds()
+                const y = date.getFullYear()
+                const m = date.getMonth() + 1
+                const d = date.getDate()
+                const hh = date.getHours()
+                const mm = date.getMinutes()
+                const ss = date.getSeconds()
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
             }
         },
         methods: {
@@ -148,7 +152,7 @@
                 })
             },
             receiveMsg(data) {
-                this.chatData = this.chatData.concat(data)
+                this.chatData.push(...data)
             }
         }
     })

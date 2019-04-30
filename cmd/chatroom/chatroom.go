@@ -94,7 +94,6 @@ func (r *Room) GetArchive() []Event {
 
 // 处理聊天室中的事件
 func (r *Room) Serve() {
-
 	for {
 		select {
 		// 用户加入房间
