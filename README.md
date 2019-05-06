@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="doc/image/index.jpg" alt="pyecharts logo" width=300 height=200 />
+    <img src="doc/image/index.jpg" alt="logo" width=300 height=200 />
 </p>
 <h1 align=center>Chat</h1>
 
@@ -53,4 +53,4 @@ golang实现的聊天室
 
 ## Donate
 
-如果觉得这个项目帮助到您，可以考虑请作者喝一杯咖啡 😄 [![](https://img.shields.io/badge/%24-donate-ff69b4.svg?style=flat-square)](https://github.com/monigo/donate)
+如果觉得这个项目帮助到您，可以考虑请作者一包辣条或一杯咖啡 😄 [![](https://img.shields.io/badge/%24-donate-ff69b4.svg?style=flat-square)](https://github.com/monigo/donate)
