@@ -8,24 +8,25 @@ import (
 // 保存历史消息的条数
 const archiveSize = 20
 const chanSize = 10
-const MsgJoin = "[加入房间]"
-const MsgLeave = "[离开房间]"
-const MsgTyping = "[正在输入]"
+
+const msgJoin = "[加入房间]"
+const msgLeave = "[离开房间]"
+const msgTyping = "[正在输入]"
 
 // 聊天室
 type Room struct {
-	users       map[UserID]chan Event  // 当前房间订阅者
+	users       map[uid]chan Event     // 当前房间订阅者
 	userCount   int                    // 当前房间总人数
 	publishChn  chan Event             // 聊天室的消息推送入口
 	archive     *list.List             // 历史记录 todo 未持久化 重启失效
 	archiveChan chan chan []Event      // 通过接受chan来同步聊天内容
 	joinChn     chan chan Subscription // 接收订阅事件的通道 用户加入聊天室后要把历史事件推送给用户
-	leaveChn    chan UserID            // 用户取消订阅通道 把通道中的历史事件释放并把用户从聊天室用户列表中删除
+	leaveChn    chan uid               // 用户取消订阅通道 把通道中的历史事件释放并把用户从聊天室用户列表中删除
 }
 
 func NewRoom() *Room {
 	r := &Room{
-		users:     map[UserID]chan Event{},
+		users:     map[uid]chan Event{},
 		userCount: 0,
 
 		publishChn:  make(chan Event, chanSize),
@@ -33,7 +34,7 @@ func NewRoom() *Room {
 		archive:     list.New(),
 
 		joinChn:  make(chan chan Subscription, chanSize),
-		leaveChn: make(chan UserID, chanSize),
+		leaveChn: make(chan uid, chanSize),
 	}
 
 	go r.Serve()
@@ -44,7 +45,7 @@ func NewRoom() *Room {
 // 用来向聊天室发送用户消息
 // 这些接口供非websocket连接方式调用
 func (r *Room) MsgJoin(user string) {
-	r.publishChn <- NewEvent(EventTypeJoin, user, MsgJoin)
+	r.publishChn <- NewEvent(EventTypeJoin, user, msgJoin)
 }
 
 func (r *Room) MsgSay(user, message string) {
@@ -52,10 +53,10 @@ func (r *Room) MsgSay(user, message string) {
 }
 
 func (r *Room) MsgLeave(user string) {
-	r.publishChn <- NewEvent(EventTypeMsg, user, MsgLeave)
+	r.publishChn <- NewEvent(EventTypeMsg, user, msgLeave)
 }
 
-func (r *Room) Remove(id UserID) {
+func (r *Room) Remove(id uid) {
 	r.leaveChn <- id // 将用户从聊天室列表中移除
 }
 

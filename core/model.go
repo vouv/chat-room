@@ -3,7 +3,7 @@ package core
 import "time"
 
 // 用户在聊天室中的唯一ID
-type UserID = string
+type uid = string
 
 const (
 	EventTypeMsg    = "event-msg"    // 用户发言
@@ -38,7 +38,7 @@ type Subscription struct {
 	Username string       // 用户名
 	Pipe     <-chan Event // 事件接收通道 用户从这个通道接收消息
 	EmitCHn  chan Event   // 用户消息推送通道
-	LeaveChn chan UserID  // 用户离开事件推送
+	LeaveChn chan uid     // 用户离开事件推送
 }
 
 func (s *Subscription) Leave() {
