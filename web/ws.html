@@ -17,8 +17,13 @@
       <el-container class="container">
         <el-header>
           <el-row :gutter="20">
-            <el-col :span="4" style="text-align: left">
-              <i class="el-icon-caret-left" @click="onExit"></i>
+            <el-col :span="4" style="text-align:left; ">
+              <el-button
+                size="small"
+                style="display: block; margin-top: 14px;"
+                icon="el-icon-caret-left"
+                @click="onExit"
+              />
             </el-col>
             <el-col :span="16">
               {{ name }}
@@ -102,7 +107,10 @@
           const socket = initSocket(name);
           this.setUpSocket(socket);
           this.socket = socket;
-          window.addEventListener("resize", _ => this.tableHeight = window.innerHeight - 120);
+          window.addEventListener(
+            "resize",
+            _ => (this.tableHeight = window.innerHeight - 120)
+          );
         },
         watch: {
           socket(val) {
@@ -175,7 +183,10 @@
             const req = JSON.stringify({
               msg: this.msg
             });
-            this.socket && (this.socket.send(req), (this.msg = ""), this.$refs.input.focus());
+            this.socket &&
+              (this.socket.send(req),
+              (this.msg = ""),
+              this.$refs.input.focus());
           },
           receiveMsg(data) {
             this.chatData.push(data);

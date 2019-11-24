@@ -1,106 +1,118 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Chat Demo</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+    />
     <script src="/static/js/vue.js"></script>
     <script src="/static/js/element.js"></script>
     <script src="/static/js/js.cookie.js"></script>
     <script src="/static/js/axios.min.js"></script>
-</head>
-<body>
-<div id="app">
-    <el-container class="container">
+  </head>
+  <body>
+    <div id="app">
+      <el-container class="container">
         <el-header>
-            <el-row :gutter="20">
-                <el-col :span="4" style="text-align: left">
-                    <i class="el-icon-caret-left" @click="onExit"></i>
-                </el-col>
-                <el-col :span="16">
-                    {{ name }}
-                </el-col>
-            </el-row>
+          <el-row :gutter="20">
+            <el-col :span="4" style="text-align: left">
+              <el-button
+                size="small"
+                style="display: block; margin-top: 14px;"
+                icon="el-icon-caret-left"
+                @click="onExit"
+              />
+            </el-col>
+            <el-col :span="16">
+              {{ name }}
+            </el-col>
+          </el-row>
         </el-header>
         <el-container>
-            <el-aside width="200px">
-                <p>Mode: Refresh</p>
-                <p>房间人数: {{ userCount }}</p>
-            </el-aside>
-            <el-container ref="container">
-                <el-main ref="area" style="margin-bottom: 160px;">
-                    <el-table
-                      :data="chatData"
-                      :show-header="false"
-                      :height="tableHeight"
-                      ref="table"
-                    >
-                      <el-table-column>
-                        <template slot-scope="scope">
-                          <span style="font-size: 20px;">@{{ scope.row.user }}</span>
-                          <i class="el-icon-time" style="margin-left: 10px"></i>
-                          <span>{{ scope.row.timestamp| formatDate }}</span>
-                          <p style="margin-left: 2px;">{{ scope.row.text }}</p>
-                        </template>
-                      </el-table-column>
-                    </el-table>
-                  </el-main>
-                  <el-footer
-                  style="width: 100%; height:60px; position: absolute; bottom: 0; text-align: left;"
-                >
-                  <div style="width: 78%; display: inline-block;">
-                    <el-input
-                      placeholder="Type here..."
-                      v-model="msg"
-                      ref="input"
-                      @keyup.enter.native="sendMessage"
-                    ></el-input>
-                  </div>
-                  <div
-                    style="width: 20%; display: inline-block; margin-right: 20px;"
-                  >
-                    <el-button type="primary" @click="sendMessage">发送</el-button>
-                    <el-button type="info" @click="clearInput">清空</el-button>
-                  </div>
-                </el-footer>
-            </el-container>
+          <el-aside width="200px">
+            <p>Mode: Refresh</p>
+            <p>房间人数: {{ userCount }}</p>
+          </el-aside>
+          <el-container ref="container">
+            <el-main ref="area" style="margin-bottom: 160px;">
+              <el-table
+                :data="chatData"
+                :show-header="false"
+                :height="tableHeight"
+                ref="table"
+              >
+                <el-table-column>
+                  <template slot-scope="scope">
+                    <span style="font-size: 20px;">@{{ scope.row.user }}</span>
+                    <i class="el-icon-time" style="margin-left: 10px"></i>
+                    <span>{{ scope.row.timestamp| formatDate }}</span>
+                    <p style="margin-left: 2px;">{{ scope.row.text }}</p>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-main>
+            <el-footer
+              style="width: 100%; height:60px; position: absolute; bottom: 0; text-align: left;"
+            >
+              <div style="width: 78%; display: inline-block;">
+                <el-input
+                  placeholder="Type here..."
+                  v-model="msg"
+                  ref="input"
+                  @keyup.enter.native="sendMessage"
+                ></el-input>
+              </div>
+              <div
+                style="width: 20%; display: inline-block; margin-right: 20px;"
+              >
+                <el-button type="primary" @click="sendMessage">发送</el-button>
+                <el-button type="info" @click="clearInput">清空</el-button>
+              </div>
+            </el-footer>
+          </el-container>
         </el-container>
-    </el-container>
-</div>
-<script>
-    const name = Cookies.get('username') ? Cookies.get('username') : (window.location.href = '/')
-    const service = axios.create()
+      </el-container>
+    </div>
+    <script>
+      const name = Cookies.get("username")
+        ? Cookies.get("username")
+        : (window.location.href = "/");
+      const service = axios.create();
 
-    const app = new Vue({
-        el: '#app',
-        data () {
-            return {
-                tableHeight: window.innerHeight - 120,
-                name: name,
-                userCount: 0,
-                msg: '',
-                chatData: []
-            }
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            tableHeight: window.innerHeight - 120,
+            name: name,
+            userCount: 0,
+            msg: "",
+            chatData: []
+          };
         },
-        mounted(){
-            service.interceptors.response.use(
-                    response => response.data,
-                    error => {
-                        console.log('err' + error) // for debug
-                        this.$message({
-                            message: '',
-                            type: 'warning'
-                        })
-                        return Promise.reject(error)
-                    }
-            )
-            this.getArchive()
-            window.addEventListener("resize", _ => this.tableHeight = window.innerHeight - 120);
-        
+        mounted() {
+          service.interceptors.response.use(
+            response => response.data,
+            error => {
+              console.log("err" + error); // for debug
+              this.$message({
+                message: "",
+                type: "warning"
+              });
+              return Promise.reject(error);
+            }
+          );
+          this.getArchive();
+          window.addEventListener(
+            "resize",
+            _ => (this.tableHeight = window.innerHeight - 120)
+          );
         },
         watch: {
-            chatData() {
+          chatData() {
             // 滚动到最底部
             this.$nextTick(() => {
               const div = this.$refs.table.bodyWrapper;
@@ -109,100 +121,109 @@
           }
         },
         filters: {
-            formatDate(val){
-                const date = new Date(val)
-                const y = date.getFullYear()
-                const m = date.getMonth() + 1
-                const d = date.getDate()
-                const hh = date.getHours()
-                const mm = date.getMinutes()
-                const ss = date.getSeconds()
-                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-            }
+          formatDate(val) {
+            const date = new Date(val);
+            const y = date.getFullYear();
+            const m = date.getMonth() + 1;
+            const d = date.getDate();
+            const hh = date.getHours();
+            const mm = date.getMinutes();
+            const ss = date.getSeconds();
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+          }
         },
         methods: {
-            getArchive() {
-                const l = this.chatData.length
-                const ts = l === 0 ? 0 : this.chatData[l - 1].timestamp
-                service({
-                    url: '/polling/archive',
-                    method: 'get',
-                    params: {
-                        ts: ts
-                    }
-                }).then(res => {
-                    this.receiveMsg(res)
-                })
-            },
-            onExit(){
-                window.location.href = '/'
-            },
-            clearInput(){
-                this.msg = ''
-                this.$refs.input.focus()
-            },
-            sendMessage() {
-                if(!this.msg) {
-                    this.$refs.input.focus()
-                    return
-                }
-                const msg = this.msg
-                service({
-                    url: '/polling/msg',
-                    method: 'post',
-                    data: {
-                        name: name,
-                        msg: msg
-                    }
-                }).then(res => {
-                    this.msg = ''
-                    this.getArchive()
-                })
-            },
-            receiveMsg(data) {
-                this.chatData.push(...data)
-                data[data.length-1] && (this.userCount = data[data.length-1].userCount)
+          getArchive() {
+            const l = this.chatData.length;
+            const ts = l === 0 ? 0 : this.chatData[l - 1].timestamp;
+            service({
+              url: "/polling/archive",
+              method: "get",
+              params: {
+                ts: ts
+              }
+            }).then(res => {
+              this.receiveMsg(res);
+            });
+          },
+          onExit() {
+            window.location.href = "/";
+          },
+          clearInput() {
+            this.msg = "";
+            this.$refs.input.focus();
+          },
+          sendMessage() {
+            if (!this.msg) {
+              this.$refs.input.focus();
+              return;
             }
+            const msg = this.msg;
+            service({
+              url: "/polling/msg",
+              method: "post",
+              data: {
+                name: name,
+                msg: msg
+              }
+            }).then(res => {
+              this.msg = "";
+              this.getArchive();
+            });
+          },
+          receiveMsg(data) {
+            this.chatData.push(...data);
+            data[data.length - 1] &&
+              (this.userCount = data[data.length - 1].userCount);
+          }
         }
-    })
-</script>
-</body>
-<style>
-    html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; }
+      });
+    </script>
+  </body>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
     .container {
-        height: 100vh;
-        width: 100vw;
+      height: 100vh;
+      width: 100vw;
     }
     .el-header {
-        background-color: #283443;
-        font-size: 30px;
-        color: #eee;
-        text-align: center;
-        line-height: 60px;
+      background-color: #283443;
+      font-size: 30px;
+      color: #eee;
+      text-align: center;
+      line-height: 60px;
     }
     .el-footer {
-        background-color: #283443;
-        color: #eee;
-        text-align: center;
-        line-height: 60px;
+      background-color: #283443;
+      color: #eee;
+      text-align: center;
+      line-height: 60px;
     }
     .el-aside {
-        background-color: #D3DCE6;
-        color: #333;
-        text-align: center;
-        height: 100%;
+      background-color: #d3dce6;
+      color: #333;
+      text-align: center;
+      height: 100%;
     }
     .el-main {
-        padding: 0 0 0 10px;
+      padding: 0 0 0 10px;
     }
 
     .el-table::before {
-        z-index: inherit;
+      z-index: inherit;
     }
     td {
-        border:none !important;
+      border: none !important;
     }
-    td:hover{ background: #FFFFFF !important; }
-
-</style>
+    td:hover {
+      background: #ffffff !important;
+    }
+  </style>
 </html>
