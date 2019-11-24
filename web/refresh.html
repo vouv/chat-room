@@ -26,34 +26,43 @@
         <el-container>
             <el-aside width="200px">
                 <p>Mode: Refresh</p>
-                <p>房间人数: {{ count }}</p>
+                <p>房间人数: {{ userCount }}</p>
             </el-aside>
             <el-container ref="container">
-                <el-main ref="area">
+                <el-main ref="area" style="margin-bottom: 160px;">
                     <el-table
-                            :data="chatData"
-                            :show-header=false
-                            ref="table">
-                        <el-table-column>
-                            <template slot-scope="scope">
-                                <span style="font-size: 20px;">@{{ scope.row.user }}</span>
-                                <i class="el-icon-time" style="margin-left: 10px"></i>
-                                <span>{{ scope.row.timestamp| formatDate }}</span>
-                                <p style="margin-left: 2px;">{{ scope.row.text }}</p>
-                            </template>
-                        </el-table-column>
+                      :data="chatData"
+                      :show-header="false"
+                      :height="tableHeight"
+                      ref="table"
+                    >
+                      <el-table-column>
+                        <template slot-scope="scope">
+                          <span style="font-size: 20px;">@{{ scope.row.user }}</span>
+                          <i class="el-icon-time" style="margin-left: 10px"></i>
+                          <span>{{ scope.row.timestamp| formatDate }}</span>
+                          <p style="margin-left: 2px;">{{ scope.row.text }}</p>
+                        </template>
+                      </el-table-column>
                     </el-table>
-                </el-main>
-                <el-footer>
-                    <el-row>
-                        <el-col :span="20">
-                            <el-input placeholder="Type here..." v-model="msg" ref="input" @keyup.enter.native="sendMessage" ></el-input>
-                        </el-col>
-                        <el-col :span="4">
-                            <el-button type="primary" @click="sendMessage">发送</el-button>
-                            <el-button type="info" @click="clearInput">清空</el-button>
-                        </el-col>
-                    </el-row>
+                  </el-main>
+                  <el-footer
+                  style="width: 100%; height:60px; position: absolute; bottom: 0; text-align: left;"
+                >
+                  <div style="width: 78%; display: inline-block;">
+                    <el-input
+                      placeholder="Type here..."
+                      v-model="msg"
+                      ref="input"
+                      @keyup.enter.native="sendMessage"
+                    ></el-input>
+                  </div>
+                  <div
+                    style="width: 20%; display: inline-block; margin-right: 20px;"
+                  >
+                    <el-button type="primary" @click="sendMessage">发送</el-button>
+                    <el-button type="info" @click="clearInput">清空</el-button>
+                  </div>
                 </el-footer>
             </el-container>
         </el-container>
@@ -67,8 +76,9 @@
         el: '#app',
         data () {
             return {
+                tableHeight: window.innerHeight - 120,
                 name: name,
-                count: 20,
+                userCount: 0,
                 msg: '',
                 chatData: []
             }
@@ -86,13 +96,17 @@
                     }
             )
             this.getArchive()
+            window.addEventListener("resize", _ => this.tableHeight = window.innerHeight - 120);
+        
         },
         watch: {
             chatData() {
-                // 滚动到最底部
-                const div = this.$refs.area.$el
-                div.scrollTop = div.scrollHeight
-            }
+            // 滚动到最底部
+            this.$nextTick(() => {
+              const div = this.$refs.table.bodyWrapper;
+              div.scrollTop = div.scrollHeight;
+            });
+          }
         },
         filters: {
             formatDate(val){
@@ -129,10 +143,6 @@
             },
             sendMessage() {
                 if(!this.msg) {
-                    this.$message({
-                        type: 'warning',
-                        message: '不能发送空消息'
-                    })
                     this.$refs.input.focus()
                     return
                 }
@@ -151,6 +161,7 @@
             },
             receiveMsg(data) {
                 this.chatData.push(...data)
+                data[data.length-1] && (this.userCount = data[data.length-1].userCount)
             }
         }
     })
