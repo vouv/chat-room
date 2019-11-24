@@ -8,6 +8,7 @@ import (
 )
 
 var LongPolling = &longPolling{}
+
 type longPolling struct{}
 
 func (longPolling) Msg() gin.HandlerFunc {

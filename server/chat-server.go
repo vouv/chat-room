@@ -7,7 +7,6 @@ import (
 
 var Room = core.NewRoom()
 
-
 func NewServer() *gin.Engine {
 	s := gin.Default()
 	// static files

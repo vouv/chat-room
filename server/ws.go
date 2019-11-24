@@ -7,7 +7,7 @@ import (
 )
 
 var Websocket = &ws{
-	upgrader:  &websocket.Upgrader{
+	upgrader: &websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 		CheckOrigin: func(r *http.Request) bool {
