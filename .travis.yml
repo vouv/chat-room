@@ -1,9 +1,11 @@
 language: go
 
 go:
-  - "1.12"
+  - "1.13.4"
 
 env:
   - GO111MODULE=on
 
-script: go build cmd/app.go
+script:
+  - go mod vendor
+  - go build cmd/main.go
