@@ -4,6 +4,7 @@
 <h1 align=center>Chatroom</h1>
 
 <p align=center>
+
 <a href="https://travis-ci.org/vouv/chat-room" ><img src="https://travis-ci.org/vouv/chat-room.svg?branch=master" alt="build status" /></a>
 <img src="https://img.shields.io/packagist/l/doctrine/orm.svg" alt="license" />
 <a href="https://gitter.im/monigo-dev/project-chat-room"><img alt="chat" src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" /></a>
@@ -14,13 +15,13 @@
 
 ## Tech
 
-### 实现了三种通信方式
+1. 实现了三种通信方式
 
 - 刷新-refresh
 - 长轮询-long-polling
 - 长连接-websocket
 
-### 基于GO中Channel特性搭建聊天室模型
+2. 基于GO中Channel特性搭建聊天室模型
 
 ## 更新日志
 

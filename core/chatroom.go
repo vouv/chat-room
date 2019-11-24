@@ -12,30 +12,15 @@ const MsgJoin = "[加入房间]"
 const MsgLeave = "[离开房间]"
 const MsgTyping = "[正在输入]"
 
-type UserID = string
-
 // 聊天室
 type Room struct {
-	// 订阅者列表
-	users     map[UserID]chan Event
-	userCount int
-
-	// 聊天室的消息推送入口
-	publishChn chan Event
-
-	// 历史记录
-	archive *list.List
-
-	archiveChan chan chan []Event
-
-	// 接收订阅事件的通道
-	// 用户加入聊天室后要把历史事件推送给用户
-	joinChn chan chan Subscription
-
-	// 用户取消订阅通道
-	// 把通道中的历史事件释放
-	// 并把用户从聊天室用户列表中删除
-	leaveChn chan UserID
+	users       map[UserID]chan Event  // 当前房间订阅者
+	userCount   int                    // 当前房间总人数
+	publishChn  chan Event             // 聊天室的消息推送入口
+	archive     *list.List             // 历史记录 todo 未持久化 重启失效
+	archiveChan chan chan []Event      // 通过接受chan来同步聊天内容
+	joinChn     chan chan Subscription // 接收订阅事件的通道 用户加入聊天室后要把历史事件推送给用户
+	leaveChn    chan UserID            // 用户取消订阅通道 把通道中的历史事件释放并把用户从聊天室用户列表中删除
 }
 
 func NewRoom() *Room {

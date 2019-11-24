@@ -6,18 +6,16 @@ import (
 	"net/http"
 )
 
-
 var Refresh = &refresh{}
-type refresh struct {}
+
+type refresh struct{}
 
 func (refresh) Index() gin.HandlerFunc {
-
 	return func(c *gin.Context) {
 		user := c.Query("user")
 		Room.MsgJoin(user)
 		c.Redirect(http.StatusMovedPermanently, "/refresh/room?user="+user)
 	}
-
 }
 
 func (refresh) Archive() gin.HandlerFunc {
@@ -29,7 +27,7 @@ func (refresh) Archive() gin.HandlerFunc {
 		user := c.Query("user")
 
 		c.HTML(http.StatusOK, "refresh.html", archive{
-			User: user,
+			User:   user,
 			Events: Room.GetArchive(),
 		})
 	}
