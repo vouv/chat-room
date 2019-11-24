@@ -4,11 +4,10 @@
 <h1 align=center>Chat</h1>
 
 <p align=center>
-<a href="https://travis-ci.org/monigo/chat-room" ><img src="https://travis-ci.org/monigo/chat-room.svg?branch=master" alt="build status" /></a>
+<a href="https://travis-ci.org/vouv/chat-room" ><img src="https://travis-ci.org/vouv/chat-room.svg?branch=master" alt="build status" /></a>
 <img src="https://img.shields.io/packagist/l/doctrine/orm.svg" alt="license" />
 <a href="https://gitter.im/monigo-dev/project-chat-room"><img alt="chat" src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" /></a>
-<a href="https://saythanks.io/to/monigo"><img alt="say thanks" src="https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg" /></a>
-<a href="https://github.com/monigo/donate"><img alt="donate" src="https://img.shields.io/badge/%24-donate-ff69b4.svg?style=flat-square"></a>
+<a href="https://github.com/vouv/donate"><img alt="donate" src="https://img.shields.io/badge/%24-donate-ff69b4.svg"></a>
 </p>
 
 ## Description
@@ -50,7 +49,3 @@ golang实现的聊天室
 - [element](https://github.com/ElemeFE/element)
 - [axios](https://github.com/axios/axios)
 - [js-cookie](https://github.com/js-cookie/js-cookie)
-
-## Donate
-
-如果觉得这个项目帮助到您，可以考虑请作者一包辣条或一杯咖啡 😄 [![](https://img.shields.io/badge/%24-donate-ff69b4.svg?style=flat-square)](https://github.com/monigo/donate)
