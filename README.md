@@ -1,15 +1,10 @@
 <p align="center">
     <img src="doc/image/index.jpg" alt="logo" width=300 height=200 />
 </p>
-<h1 align=center>Chatroom</h1>
 
-<p align=center>
+# Chatroom
 
-<a href="https://travis-ci.org/vouv/chat-room" ><img src="https://travis-ci.org/vouv/chat-room.svg?branch=master" alt="build status" /></a>
-<img src="https://img.shields.io/packagist/l/doctrine/orm.svg" alt="license" />
-<a href="https://gitter.im/monigo-dev/project-chat-room"><img alt="chat" src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" /></a>
-<a href="https://github.com/vouv/donate"><img alt="donate" src="https://img.shields.io/badge/%24-donate-ff69b4.svg"></a>
-</p>
+[![Go Report Card](https://goreportcard.com/badge/github.com/vouv/chat-room)](https://goreportcard.com/report/github.com/vouv/chat-room) [![Build Status](https://travis-ci.org/vouv/chat-room.svg?branch=master)](https://travis-ci.org/vouv/chat-room) ![license](https://img.shields.io/packagist/l/doctrine/orm.svg) [![donate](https://img.shields.io/badge/%24-donate-ff69b4.svg)](https://github.com/vouv/donate)
 
 > 基于Golang+Vue实现的聊天室
 
