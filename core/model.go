@@ -14,7 +14,7 @@ const (
 	EventTypeImage  = "event-image"  // todo 消息图片
 )
 
-// 聊天室事件定义
+// Event 聊天室事件定义
 type Event struct {
 	Type      string `json:"type"`      // 事件类型
 	User      string `json:"user"`      // 用户名
@@ -32,7 +32,7 @@ func NewEvent(typ string, user, msg string) Event {
 	}
 }
 
-// 用户订阅
+// Subscription 用户订阅
 type Subscription struct {
 	Id       string       // 用户在聊天室中的ID
 	Username string       // 用户名
